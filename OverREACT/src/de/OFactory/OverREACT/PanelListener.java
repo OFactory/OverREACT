@@ -12,6 +12,7 @@ public class PanelListener implements MouseMotionListener, MouseListener, Compon
 	public void mouseDragged(MouseEvent e) {
 		Panel.mausx = e.getX();
 		Panel.mausy = e.getY();
+		Panel.leftmaus = true;
 		
 	}
 
@@ -19,25 +20,23 @@ public class PanelListener implements MouseMotionListener, MouseListener, Compon
 	public void mouseMoved(MouseEvent e) {
 		Panel.mausx = e.getX();
 		Panel.mausy = e.getY();
-		
+		Panel.leftmaus = false;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		Panel.leftmaus = true;
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		Panel.leftmaus = true;
+		
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Panel.leftmaus = false;
+		
 		
 	}
 

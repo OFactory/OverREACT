@@ -4,9 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.util.Hashtable;
 
 import de.OFactory.OverREACT.Panel;
 
@@ -19,8 +17,6 @@ import de.OFactory.OverREACT.Panel;
 public class LEWISHandler {
 	
 	private Molecule m; // Molecule des Handlers
-	
-	public static Hashtable<Atom, Point> atomposition = new Hashtable<Atom, Point>();
 	
 	
 	
@@ -54,26 +50,33 @@ public class LEWISHandler {
 		
 		for(Atom a : m.getAtoms()){ // für jedes Atom
 			
-			if(atomposition.containsKey(a)){
-				Panel.drawCenteredString(g, a.getElement().getSymbol(), atomposition.get(a).x , atomposition.get(a).y, Panel.molecule);
+			if(!(a.getX() == 0 && a.getY() == 0)){
+				
+				a.checkMouse();
+				
+				
+				Panel.drawCenteredString(g, a.getElement().getSymbol(), a.getX(), a.getY(), Panel.molecule);
 			} else {
-				atomposition.put(a, new Point((int) (Panel.getScreenWidth()/4 + Math.random()*(Panel.getScreenWidth()/2)), (int) (Panel.getScreenHeight()/4 + Math.random()*(Panel.getScreenHeight()/2))));
+				a.setX((int) (Panel.getScreenWidth()/4 + Math.random()*(Panel.getScreenWidth()/2)   ));
+				a.setY((int) (Panel.getScreenHeight()/4 + Math.random()*(Panel.getScreenHeight()/2) ));
 			}
 			
-			
+			if(a.getElectronBinds() == 2){
+				
+			}
 			
 			
 			
 		}
 		
 		for(Tuple<Integer, Integer> bind : m.getElectronBinds()){ // Für jedes Elektronenpaar
-			g2.setColor(Color.GRAY);
-			Line2D.Float line = new Line2D.Float(atomposition.get(m.getAtoms().get(bind.x)).x,
-												atomposition.get(m.getAtoms().get(bind.x)).y ,
-												atomposition.get(m.getAtoms().get(bind.y)).x ,
-												atomposition.get(m.getAtoms().get(bind.y)).y );
+			g2.setColor(Color.BLACK);
+			Line2D.Float line = new Line2D.Float(m.getAtoms().get(bind.x).getX(),
+												m.getAtoms().get(bind.x).getY() ,
+												m.getAtoms().get(bind.y).getX() ,
+												m.getAtoms().get(bind.y).getY() );
 			
-			Panel.shortenLine(line, 0.1);
+			Panel.shortenLine(line, Math.pow(Panel.getEuclidanDistance(line), -0.34));
 			
 			
 			g2.draw(line);

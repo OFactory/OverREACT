@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -230,12 +232,19 @@ public class Panel extends JPanel implements Runnable{
 	
 	public static void shortenLine(Line2D l, double shortfactor){
 		
-		double w = Math.abs(l.getX1() - l.getX2());
-		double h = Math.abs(l.getY1() - l.getY2());
-		
-		l.setLine(l.getX1() + w*shortfactor, l.getY1() - w*shortfactor, l.getX2() - h*shortfactor, l.getY2() + h*shortfactor);
+		// B + ( A - B ) * t
 		
 		
+		l.setLine(l.getX1() + ( l.getX2() - l.getX1() )*shortfactor,
+				  l.getY1() + ( l.getY2() - l.getY1() )*shortfactor,
+				  l.getX2() + ( l.getX1() - l.getX2() )*shortfactor,
+				  l.getY2() + ( l.getY1() - l.getY2() )*shortfactor);
+		
+		
+	}
+	
+	public static double getEuclidanDistance(Line2D l){	
+		return Math.sqrt( Math.pow(l.getX1() - l.getX2(), 2)  + Math.pow(l.getY1() - l.getY2(), 2) );
 	}
 
 
