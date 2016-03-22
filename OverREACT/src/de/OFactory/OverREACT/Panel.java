@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.OFactory.OverREACT.Objects.Element;
+import de.OFactory.OverREACT.Objects.Elements;
 
 public class Panel extends JPanel implements Runnable{
 	
@@ -25,7 +26,7 @@ public class Panel extends JPanel implements Runnable{
 	private static int SCREEN_WIDTH = 1200;
 	private static int SCREEN_HEIGHT = 700;
 
-	private JFrame frame;
+	private static JFrame frame;
 	
 	//Schriftarten
 	public static Font ultra, big, small, head, norm; 
@@ -44,7 +45,7 @@ public class Panel extends JPanel implements Runnable{
 	public static Button start;
 	
 	public static void main(String[] args){
-		new Panel(SCREEN_WIDTH, SCREEN_HEIGHT);
+		new Panel(getScreenWidth(), getScreenHeight());
 	}
 
 	
@@ -54,34 +55,15 @@ public class Panel extends JPanel implements Runnable{
 		this.setBackground(new Color(230, 230, 230));
 		
 		// Fenster wird erstellt
-		frame = new JFrame("Substitution - Eine typische Reaktion der Alkane | OFactory© ");
+		setFrame(new JFrame("Substitution - Eine typische Reaktion der Alkane | OFactory© "));
 		//frame.setResizable(false);
-		frame.setLocation(100,100);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.addComponentListener(new ComponentListener() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				SCREEN_WIDTH = frame.getWidth();
-				SCREEN_HEIGHT = frame.getHeight();
-				resizeFonts(SCREEN_WIDTH, SCREEN_HEIGHT);
-				
-				System.out.println("[Dimensions] " + frame.getWidth() + " | " + frame.getHeight());
-				
-			}
-			@Override
-			public void componentMoved(ComponentEvent e) {}
-
-			@Override
-			public void componentShown(ComponentEvent e) {}
-			
-			@Override
-			public void componentHidden(ComponentEvent e) {}
-		});
-		
-		frame.addMouseMotionListener(pl);
-		frame.add(this);
-		frame.pack();
-		frame.setVisible(true);
+		getFrame().setLocation(100,100);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().addComponentListener(pl);		
+		getFrame().addMouseMotionListener(pl);
+		getFrame().add(this);
+		getFrame().pack();
+		getFrame().setVisible(true);
 
 		
 		doInitializations();
@@ -92,13 +74,13 @@ public class Panel extends JPanel implements Runnable{
 
 	private void doInitializations() {
 		
-		System.out.println(Element.WASSERSTOFF.get(1));
+		System.out.println(Elements.WASSERSTOFF.getSymbol());
 		
 		
 		//Sachen für "einmalige Gelegenheiten"
 		last = System.nanoTime();
 		
-		start = new Button(0, (int) (SCREEN_WIDTH*0.7 - SCREEN_WIDTH/7), (int) (SCREEN_HEIGHT*0.8 - SCREEN_HEIGHT/14), SCREEN_WIDTH/3, SCREEN_HEIGHT/7, "Start");
+		start = new Button(0, (int) (getScreenWidth()*0.7 - getScreenWidth()/7), (int) (getScreenHeight()*0.8 - getScreenHeight()/14), getScreenWidth()/3, getScreenHeight()/7, "Start");
 		
 	}
 
@@ -124,10 +106,10 @@ public class Panel extends JPanel implements Runnable{
 		g.drawString("MausPressed: " + Panel.leftmaus, 10, 75);
 		
 		g.setColor(Color.black);
-		drawCenteredString(g, "Substitution", new Rectangle(0, SCREEN_HEIGHT/8, SCREEN_WIDTH, SCREEN_HEIGHT), Panel.head);
+		drawCenteredString(g, "Substitution", new Rectangle(0, getScreenHeight()/8, getScreenWidth(), getScreenHeight()), Panel.head);
 		g.setColor(new Color(100, 100, 100));
-		drawCenteredString(g, "Eine typische Reaktion der Alkane", new Rectangle(0, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT/4), Panel.ultra);
-		drawCenteredString(g, "OFactory", new Rectangle((int) (SCREEN_WIDTH*0.75), 0, SCREEN_WIDTH/4, SCREEN_HEIGHT/6), Panel.big);
+		drawCenteredString(g, "Eine typische Reaktion der Alkane", new Rectangle(0, getScreenHeight()/2, getScreenWidth(), getScreenHeight()/4), Panel.ultra);
+		drawCenteredString(g, "OFactory", new Rectangle((int) (getScreenWidth()*0.75), 0, getScreenWidth()/4, getScreenHeight()/6), Panel.big);
 		
 		start.draw(g);
 		
@@ -139,7 +121,7 @@ public class Panel extends JPanel implements Runnable{
 	@Override
 	public void run(){
 		
-		while(frame.isVisible()){
+		while(getFrame().isVisible()){
 			
 			doLogic();
 			
@@ -160,16 +142,16 @@ public class Panel extends JPanel implements Runnable{
 		
 		
 		start.update(Panel.mausx, Panel.mausy, Panel.leftmaus);
-		start.setX(   (int) (SCREEN_WIDTH*0.7 - SCREEN_WIDTH/7)    );
-		start.setY(   (int) (SCREEN_HEIGHT*0.8 - SCREEN_HEIGHT/14) );
-		start.setWidth(      SCREEN_WIDTH/3                        );
-		start.setHeight(     SCREEN_HEIGHT/7                       );
+		start.setX(   (int) (getScreenWidth()*0.7 - getScreenWidth()/7)    );
+		start.setY(   (int) (getScreenHeight()*0.8 - getScreenHeight()/14) );
+		start.setWidth(      getScreenWidth()/3                        );
+		start.setHeight(     getScreenHeight()/7                       );
 		
 	}
 
 
 
-	public void resizeFonts(int width, int height){
+	public static void resizeFonts(int width, int height){
 		
 		int delta = ((width+height)/2)/80;
 		
@@ -181,7 +163,7 @@ public class Panel extends JPanel implements Runnable{
 	}
 	
 	/**
-	 * Draw a String centered in the middle of a Rectangle.
+	 * Zeichnet einen String in dem Angebebenem Rechteck!
 	 *
 	 * @param g Die Graphik-Instanz
 	 * @param text Den zu zeichnenden String
@@ -197,6 +179,40 @@ public class Panel extends JPanel implements Runnable{
 	    
 	    g.setFont(font);
 	    g.drawString(text, rect.x + x,  rect.y + y);
+	}
+
+
+
+	public static int getScreenWidth() {
+		return SCREEN_WIDTH;
+	}
+
+
+
+	public static void setScreenWidth(int width) {
+		Panel.SCREEN_WIDTH = width;
+	}
+
+
+
+	public static JFrame getFrame() {
+		return frame;
+	}
+
+
+
+	public void setFrame(JFrame frame) {
+		Panel.frame = frame;
+	}
+
+
+
+	public static int getScreenHeight() {
+		return SCREEN_HEIGHT;
+	}
+	
+	public static void setScreenHeight(int height) {
+		Panel.SCREEN_HEIGHT = height;
 	}
 	
 }
