@@ -6,14 +6,17 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.OFactory.OverREACT.Objects.Element;
+import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Elements;
+import de.OFactory.OverREACT.Objects.Molecule;
+import de.OFactory.OverREACT.Objects.Tuple;
 
 public class Panel extends JPanel implements Runnable{
 	
@@ -29,7 +32,7 @@ public class Panel extends JPanel implements Runnable{
 	private static JFrame frame;
 	
 	//Schriftarten
-	public static Font ultra, big, small, head, norm; 
+	public static Font ultra, big, small, head, norm, molecule; 
 	
 	//Mausposition
 	public static int mausx, mausy;
@@ -37,7 +40,8 @@ public class Panel extends JPanel implements Runnable{
 	
 	PanelListener pl = new PanelListener();
 	
-	
+	//TESTVARIABLEN
+	static Molecule m;
 	
 	private long delta, last, fps;
 	
@@ -46,6 +50,27 @@ public class Panel extends JPanel implements Runnable{
 	
 	public static void main(String[] args){
 		new Panel(getScreenWidth(), getScreenHeight());
+		
+		
+		// TEST AREA INCOMING | WARNING | DO NOT TOUCH
+		
+		Atom a = new Atom(Elements.KOHLENSTOFF);
+		System.out.println(a.getElement().getName());
+		System.out.println(a.getElement().getSymbol());
+		System.out.println(a.getElectronAmount());
+		System.out.println(a.getElectronBinds());
+		
+		
+		
+		Panel.m = new Molecule("Wasser",
+				new ArrayList<Atom>(Arrays.asList(new Atom(Elements.WASSERSTOFF), new Atom(Elements.WASSERSTOFF), new Atom(Elements.SAUERSTOFF))),
+				new ArrayList<Tuple<Integer, Integer>>(Arrays.asList(new Tuple<Integer, Integer>(0, 2), new Tuple<Integer, Integer>(1, 2) )));
+		
+		
+		
+		
+		// TEST AREA TAIL -.-----**--..--**--
+		
 	}
 
 	
@@ -73,8 +98,6 @@ public class Panel extends JPanel implements Runnable{
 	}
 
 	private void doInitializations() {
-		
-		System.out.println(Elements.WASSERSTOFF.getSymbol());
 		
 		
 		//Sachen für "einmalige Gelegenheiten"
@@ -106,15 +129,19 @@ public class Panel extends JPanel implements Runnable{
 		g.drawString("MausPressed: " + Panel.leftmaus, 10, 75);
 		
 		g.setColor(Color.black);
-		drawCenteredString(g, "Substitution", new Rectangle(0, getScreenHeight()/8, getScreenWidth(), getScreenHeight()), Panel.head);
+		//drawCenteredString(g, "Substitution", new Rectangle(0, getScreenHeight()/8, getScreenWidth(), getScreenHeight()), Panel.head);
 		g.setColor(new Color(100, 100, 100));
-		drawCenteredString(g, "Eine typische Reaktion der Alkane", new Rectangle(0, getScreenHeight()/2, getScreenWidth(), getScreenHeight()/4), Panel.ultra);
+		//drawCenteredString(g, "Eine typische Reaktion der Alkane", new Rectangle(0, getScreenHeight()/2, getScreenWidth(), getScreenHeight()/4), Panel.ultra);
 		drawCenteredString(g, "OFactory", new Rectangle((int) (getScreenWidth()*0.75), 0, getScreenWidth()/4, getScreenHeight()/6), Panel.big);
 		
-		start.draw(g);
+		//start.draw(g);
 		
 		
-		g.dispose();
+		 //TESTBEREICH
+		Panel.m.draw(g);
+		
+		
+		g.dispose(); // den ganzen scheiß mal beenden
 	}
 
 
@@ -155,8 +182,9 @@ public class Panel extends JPanel implements Runnable{
 		
 		int delta = ((width+height)/2)/80;
 		
-		Panel.ultra = new Font("Arial", Font.BOLD, 20 + delta);
-		Panel.big   = new Font("Arial", Font.BOLD, 10 + delta);
+		Panel.ultra    = new Font("Arial", Font.BOLD, 20 + delta);
+		Panel.molecule = new Font("Arial", Font.BOLD, 100 + delta);
+		Panel.big      = new Font("Arial", Font.BOLD, 10 + delta);
 		Panel.small = new Font("Arial", Font.BOLD,      delta);
 		Panel.norm  = new Font("Arial", Font.BOLD, 3 + delta);
 		Panel.head  = new Font("Arial", Font.BOLD, 80 + delta);
@@ -165,7 +193,7 @@ public class Panel extends JPanel implements Runnable{
 	/**
 	 * Zeichnet einen String in dem Angebebenem Rechteck!
 	 *
-	 * @param g Die Graphik-Instanz
+	 * @param g Die Grafik-Instanz
 	 * @param text Den zu zeichnenden String
 	 * @param rect Das Rechteck in dem der String gezeichnet werden soll
 	 */
@@ -179,6 +207,35 @@ public class Panel extends JPanel implements Runnable{
 	    
 	    g.setFont(font);
 	    g.drawString(text, rect.x + x,  rect.y + y);
+	}
+	
+	/**
+	 * Zeichnet einen String Symmetrisch zum angegebenem Punkt
+	 *
+	 * @param g Die Grafik-Instanz
+	 * @param text Den zu zeichnenden String
+	 * @param x x-Koordinate
+	 * @param y y-Koordinate
+	 */
+	public static void drawCenteredString(Graphics g, String text, int x, int y, Font font){
+		// FontMetrics gönnen #GönnungMussSein
+	    FontMetrics metrics = g.getFontMetrics(font);
+	    
+	    int newx = x - (metrics.stringWidth(text)/2);
+	    int newy = y + (metrics.getHeight()/3);
+		
+	    g.setFont(font);
+	    g.drawString(text, newx, newy);
+	}
+	
+	public static void shortenLine(Line2D l, double shortfactor){
+		
+		double w = Math.abs(l.getX1() - l.getX2());
+		double h = Math.abs(l.getY1() - l.getY2());
+		
+		l.setLine(l.getX1() + w*shortfactor, l.getY1() - w*shortfactor, l.getX2() - h*shortfactor, l.getY2() + h*shortfactor);
+		
+		
 	}
 
 

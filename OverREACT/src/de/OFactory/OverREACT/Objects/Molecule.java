@@ -1,5 +1,6 @@
 package de.OFactory.OverREACT.Objects;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Molecule {
@@ -24,7 +25,9 @@ public class Molecule {
 	}
 	
 	
-	
+	public void draw(Graphics g){
+		LEWISHandler.drawMolecule(g, this);
+	}
 	
 	
 	
