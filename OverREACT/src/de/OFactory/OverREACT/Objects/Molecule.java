@@ -16,6 +16,13 @@ public class Molecule {
 	
 	}
 	
+	public Molecule(String name, String formula, ArrayList<Tuple<Integer, Integer>> electronbinds){
+		this.setName(name);
+		this.setAtoms(this.getAtoms(formula));
+		this.setElectronBinds(electronbinds);
+	
+	}
+	
 	public void addAtom(Element e) {
 		this.getAtoms().add(new Atom(e));
 	}
@@ -30,6 +37,30 @@ public class Molecule {
 	}
 	
 	
+	//Bekommt Formel : S.x;S.y; z.B H.2;O.1;
+	@SuppressWarnings("null")
+	private ArrayList<Atom> getAtoms(String formula) {
+		ArrayList<Atom> formula_atoms = null;
+		
+		for(String s : formula.split(";")){
+			String[] values = s.split(".");
+			
+			int amount = Integer.parseInt(values[1]);
+			Element e = Elements.getBySymbol(values[0]);
+			
+			
+			
+			for (int i = 0; i<amount; i++){
+				formula_atoms.add(new Atom(e));
+			}
+			
+		}
+		
+		
+		
+		return formula_atoms;
+		
+	}
 	
 	
 	public ArrayList<Tuple<Integer, Integer>> getElectronBinds() {

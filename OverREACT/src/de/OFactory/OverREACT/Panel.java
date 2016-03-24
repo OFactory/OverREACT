@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Elements;
 import de.OFactory.OverREACT.Objects.Molecule;
+import de.OFactory.OverREACT.Objects.Molecules;
 import de.OFactory.OverREACT.Objects.Tuple;
 
 public class Panel extends JPanel implements Runnable{
@@ -140,7 +141,8 @@ public class Panel extends JPanel implements Runnable{
 		
 		
 		 //TESTBEREICH
-		Panel.m.draw(g);
+		//Panel.m.draw(g);
+		Molecules.METHAN.draw(g);
 		
 		
 		g.dispose(); // den ganzen scheiﬂ mal beenden

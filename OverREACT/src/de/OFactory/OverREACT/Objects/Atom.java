@@ -1,5 +1,6 @@
 package de.OFactory.OverREACT.Objects;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -22,6 +23,17 @@ public class Atom {
 		
 		
 	}
+	
+	public Atom(Element element, int x, int y){
+		this.setElement(element);
+		this.x = x;
+		this.y = y;
+		
+		this.setElectronAmount(this.getElement().getGroup());
+		this.setElectronBinds(this.getElectronAmount()/2);
+		
+		
+	}
 
 	public void checkMouse(){
 		if(Panel.leftmaus){
@@ -31,6 +43,10 @@ public class Atom {
 			}
 				
 		}
+	}
+	
+	public void draw(Graphics g) {
+		Panel.drawCenteredString(g, this.getElement().getSymbol(), this.x, this.y, Panel.molecule);
 	}
 
 	public Element getElement() {
