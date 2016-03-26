@@ -18,6 +18,7 @@ public class Atom {
 	
 	private int x;
 	private int y;
+	private boolean dragged;
 	
 	public Atom(Element element){
 		this.setElement(element);
@@ -44,18 +45,18 @@ public class Atom {
 			if(new Point(this.x, this.y).distance(new Point(MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy)) < 70){
 				
 				if(MoleculeDrawerPanel.selected != null){
-					if(MoleculeDrawerPanel.selected != this) { 
-						
-						//System.out.println(MoleculeDrawerPanel.curm.getAtoms());
-						
-						int indexa = m.getAtoms().indexOf(MoleculeDrawerPanel.selected);
-						int indext = m.getAtoms().indexOf(this);
-						
-						//System.out.println(indexa + " | " + indext);
-						m.addElectronBind( indexa ,  indext);
-						
-						MoleculeDrawerPanel.selected = null;
-						MoleculeDrawerPanel.leftmaus = false;
+					if(MoleculeDrawerPanel.selected != this) {
+							
+							//System.out.println(MoleculeDrawerPanel.curm.getAtoms());
+							
+							int indexa = m.getAtoms().indexOf(MoleculeDrawerPanel.selected);
+							int indext = m.getAtoms().indexOf(this);
+							
+							//System.out.println(indexa + " | " + indext);
+							m.addElectronBind( indexa ,  indext);
+							
+							MoleculeDrawerPanel.selected = null;
+							MoleculeDrawerPanel.leftmaus = false;
 					}
 					
 				} else {
@@ -84,8 +85,14 @@ public class Atom {
 			g2.drawOval(this.x - 70, this.y - 70, 140, 140);
 			
 			
-			g.setColor(Color.gray);
-			g2.drawLine(this.getX(), this.getY(), MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
+			if(MoleculeDrawerPanel.leftmaus){
+			
+				dragged = true;
+				g.setColor(Color.gray);
+				g2.drawLine(this.getX(), this.getY(), MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
+			} else {
+				dragged = false;
+			}
 		}
 	}
 	

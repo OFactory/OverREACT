@@ -73,7 +73,9 @@ public class LEWISHandler {
 												m.getAtoms().get(bind.y).getX() ,
 												m.getAtoms().get(bind.y).getY() );
 			
-			Panel.shortenLine(line, Math.pow(Panel.getEuclidanDistance(line), -0.34));
+			double dist = Panel.getEuclidanDistance(line);
+			
+			Panel.shortenLine(line, (dist - 50) / dist);
 			
 			
 			g2.draw(line);

@@ -23,6 +23,11 @@ public class Molecule {
 	
 	}
 	
+	public void addAtom(Atom a) {
+		this.getAtoms().add(a);
+		a.setMolecule(this);
+	}
+	
 	public void addAtom(Element e) {
 		this.getAtoms().add(new Atom(e));
 	}

@@ -96,13 +96,41 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_H){ // H wird gepresst
 			Atom a = new Atom(Elements.WASSERSTOFF, MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
-			System.out.println(a);
-			MoleculeDrawerPanel.curm.getAtoms().add(a);
+			MoleculeDrawerPanel.curm.addAtom(a);
 			
-		} else if(e.getKeyCode() == KeyEvent.VK_C){
+		} else if(e.getKeyCode() == KeyEvent.VK_C){ // C wird gepresst
 			Atom a = new Atom(Elements.KOHLENSTOFF, MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
-			System.out.println(a);
-			MoleculeDrawerPanel.curm.getAtoms().add(a);
+			MoleculeDrawerPanel.curm.addAtom(a);
+		}
+		
+		
+		
+		if(MoleculeDrawerPanel.selected != null){ // Bewegen des ausgewählten Atoms mit Pfeiltasten		
+			
+			int dirx = 0;
+			int diry = 0;
+			int speed = 10;
+			
+			if(e.getKeyCode() == KeyEvent.VK_UP){ // Up pressed
+				diry = -speed;
+			} 
+			
+			if(e.getKeyCode() == KeyEvent.VK_DOWN){ // Down pressedc
+				diry = speed;
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_LEFT){ // Left pressed
+				dirx = -speed;
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT){ // Right pressed
+				dirx = speed;
+			}
+			
+			MoleculeDrawerPanel.selected.setX(MoleculeDrawerPanel.selected.getX() + dirx);
+			MoleculeDrawerPanel.selected.setY(MoleculeDrawerPanel.selected.getY() + diry);
+			
+			
 		}
 		
 	}
