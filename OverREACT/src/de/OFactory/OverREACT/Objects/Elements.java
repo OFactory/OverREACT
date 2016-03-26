@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Elements {
 	
-	@SuppressWarnings("rawtypes")
 	public static ArrayList<Element> PSE = new ArrayList<Element>();
 
 	//        NAME			 {Ordnungszahl, Symbol, Gruppe, Periode}

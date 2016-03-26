@@ -14,34 +14,20 @@ import de.OFactory.OverREACT.Objects.Elements;
 public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseListener, ComponentListener, KeyListener{
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		MoleculeDrawerPanel.mausx = e.getX();
-		MoleculeDrawerPanel.mausy = e.getY();
-		MoleculeDrawerPanel.leftmaus = true;
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		MoleculeDrawerPanel.mausx = e.getX();
-		MoleculeDrawerPanel.mausy = e.getY();
-		MoleculeDrawerPanel.leftmaus = false;
-	}
-
-	@Override
 	public void mouseClicked(MouseEvent e) {
+		
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		MoleculeDrawerPanel.leftmaus = true;
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		MoleculeDrawerPanel.leftmaus = false;
 		
 	}
 
@@ -56,6 +42,21 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		MoleculeDrawerPanel.mausx = e.getX();
+		MoleculeDrawerPanel.mausy = e.getY();
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		MoleculeDrawerPanel.mausx = e.getX();
+		MoleculeDrawerPanel.mausy = e.getY();
+	}
+
 
 	@Override
 	public void componentResized(ComponentEvent e) {
@@ -95,22 +96,26 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_H){ // H wird gepresst
 			Atom a = new Atom(Elements.WASSERSTOFF, MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
-			System.out.println("Well you just created a H");
-			MoleculeDrawerPanel.atoms.add(a);
+			System.out.println(a);
+			MoleculeDrawerPanel.curm.getAtoms().add(a);
 			
 		} else if(e.getKeyCode() == KeyEvent.VK_C){
 			Atom a = new Atom(Elements.KOHLENSTOFF, MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
-			System.out.println("Well you just created a C");
-			MoleculeDrawerPanel.atoms.add(a);
+			System.out.println(a);
+			MoleculeDrawerPanel.curm.getAtoms().add(a);
 		}
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
+
+	
+
+
 
 
 

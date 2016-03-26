@@ -1,9 +1,12 @@
 package de.OFactory.OverREACT.Objects;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
+import de.OFactory.OverREACT.MoleculeDrawerPanel;
 import de.OFactory.OverREACT.Panel;
 
 public class Atom {
@@ -11,6 +14,7 @@ public class Atom {
 	private Element element;
 	private int electrons;
 	private double binds = this.getElectronAmount()/2;
+	private Molecule m;
 	
 	private int x;
 	private int y;
@@ -36,17 +40,57 @@ public class Atom {
 	}
 
 	public void checkMouse(){
-		if(Panel.leftmaus){
-			if(new Point(this.x, this.y).distance(new Point(Panel.mausx, Panel.mausy)) < 50){
-				this.setX(Panel.mausx);
-				this.setY(Panel.mausy);
+		if(MoleculeDrawerPanel.leftmaus){ // Molecule Drawer
+			if(new Point(this.x, this.y).distance(new Point(MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy)) < 70){
+				
+				if(MoleculeDrawerPanel.selected != null){
+					if(MoleculeDrawerPanel.selected != this) { 
+						
+						//System.out.println(MoleculeDrawerPanel.curm.getAtoms());
+						
+						int indexa = m.getAtoms().indexOf(MoleculeDrawerPanel.selected);
+						int indext = m.getAtoms().indexOf(this);
+						
+						//System.out.println(indexa + " | " + indext);
+						m.addElectronBind( indexa ,  indext);
+						
+						MoleculeDrawerPanel.selected = null;
+						MoleculeDrawerPanel.leftmaus = false;
+					}
+					
+				} else {
+					
+					MoleculeDrawerPanel.selected = this;
+					
+				}			
+				
 			}
 				
 		}
 	}
 	
 	public void draw(Graphics g) {
-		Panel.drawCenteredString(g, this.getElement().getSymbol(), this.x, this.y, Panel.molecule);
+		
+		
+		this.checkMouse();
+		g.setColor(Color.BLACK);
+		Panel.drawCenteredString(g, this.getElement().getSymbol(), this.x, this.y, Panel.molecule); // Elementc
+		Panel.drawCenteredString(g, this.getElectronAmount() + "", this.x + 50, this.y + 50, Panel.big);
+		
+		if(MoleculeDrawerPanel.selected == this) {
+			g.setColor(Color.blue);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(10));
+			g2.drawOval(this.x - 70, this.y - 70, 140, 140);
+			
+			
+			g.setColor(Color.gray);
+			g2.drawLine(this.getX(), this.getY(), MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
+		}
+	}
+	
+	public String toString() {
+		return "Atom (" + this.getElement() + ") | " + this.getX() + ";" + this.getY();
 	}
 
 	public Element getElement() {
@@ -97,6 +141,14 @@ public class Atom {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public Molecule getMolecule() {
+		return m;
+	}
+
+	public void setMolecule(Molecule m) {
+		this.m = m;
 	}
 	
 	

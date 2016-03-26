@@ -52,10 +52,7 @@ public class LEWISHandler {
 			
 			if(!(a.getX() == 0 && a.getY() == 0)){
 				
-				a.checkMouse();
-				
-				
-				Panel.drawCenteredString(g, a.getElement().getSymbol(), a.getX(), a.getY(), Panel.molecule);
+				a.draw(g);
 			} else {
 				a.setX((int) (Panel.getScreenWidth()/4 + Math.random()*(Panel.getScreenWidth()/2)   ));
 				a.setY((int) (Panel.getScreenHeight()/4 + Math.random()*(Panel.getScreenHeight()/2) ));

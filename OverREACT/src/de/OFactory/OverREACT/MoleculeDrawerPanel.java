@@ -3,22 +3,15 @@ package de.OFactory.OverREACT;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import de.OFactory.OverREACT.Objects.Atom;
-import de.OFactory.OverREACT.Objects.Elements;
 import de.OFactory.OverREACT.Objects.Molecule;
-import de.OFactory.OverREACT.Objects.Molecules;
 import de.OFactory.OverREACT.Objects.Tuple;
 
 public class MoleculeDrawerPanel extends JPanel implements Runnable{
@@ -28,7 +21,7 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public static ArrayList<Atom> atoms = new ArrayList<Atom>();
+	public static Molecule curm = new Molecule("Current", new ArrayList<Atom>(), new ArrayList<Tuple<Integer, Integer>>());
 	
 	private static int SCREEN_WIDTH = 1200;
 	private static int SCREEN_HEIGHT = 700;
@@ -37,6 +30,12 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable{
 	
 	//Schriftarten
 	public static Font ultra, big, small, head, norm, molecule; 
+	
+	//slected
+	public static Atom selected;
+	
+	
+	
 	
 	//Mausposition
 	public static int mausx, mausy;
@@ -73,12 +72,13 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable{
 		this.setBackground(new Color(230, 230, 230));
 		
 		// Fenster wird erstellt
-		setFrame(new JFrame("Substitution - Eine typische Reaktion der Alkane | OFactory© "));
+		setFrame(new JFrame("Moleküle zeichnen | OFactory© "));
 		//frame.setResizable(false);
 		getFrame().setLocation(100,100);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrame().addComponentListener(pl);		
 		getFrame().addMouseMotionListener(pl);
+		getFrame().addMouseListener(pl);
 		getFrame().addKeyListener(pl);
 		getFrame().add(this);
 		getFrame().pack();
@@ -120,14 +120,10 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable{
 		g.drawString("delta: " + this.delta, 10, 45);
 		g.drawString("Maus: " + MoleculeDrawerPanel.mausx + " | " + MoleculeDrawerPanel.mausy, 10, 60);
 		g.drawString("MausPressed: " + MoleculeDrawerPanel.leftmaus, 10, 75);
+		g.drawString("selected: " + MoleculeDrawerPanel.selected, 10, 90);
 		
-		g.setColor(Color.black);
 		
-		if(atoms.size() > 0){
-			for (Atom a : atoms){
-				a.draw(g);
-			}
-		}
+		curm.draw(g);
 		
 		
 		 //TESTBEREICH

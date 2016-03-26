@@ -17,6 +17,10 @@ public class Element {
 		this.setPeriod(period);
 		
 	}
+	
+	public String toString() {
+		return "Element | " + this.getNumber() + ", " + this.getSymbol(); 
+	}
 
 	public String getName() {
 		return name;
