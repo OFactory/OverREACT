@@ -75,8 +75,8 @@ public class Atom {
 		
 		this.checkMouse();
 		g.setColor(Color.BLACK);
-		Panel.drawCenteredString(g, this.getElement().getSymbol(), this.x, this.y, Panel.molecule); // Elementc
-		Panel.drawCenteredString(g, this.getElectronAmount() + "", this.x + 50, this.y + 50, Panel.big);
+		Panel.drawCenteredString(g, this.getElement().getSymbol(), this.x, this.y, Panel.molecule); // Elementzeichen
+		Panel.drawCenteredString(g, this.getElectronAmount() + "", this.x + 50, this.y + 50, Panel.big); // Elektronenanzahl | Debug
 		
 		if(MoleculeDrawerPanel.selected == this) {
 			g.setColor(Color.blue);

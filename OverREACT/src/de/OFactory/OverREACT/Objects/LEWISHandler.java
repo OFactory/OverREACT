@@ -4,7 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 import de.OFactory.OverREACT.Panel;
 
@@ -62,23 +64,62 @@ public class LEWISHandler {
 				
 			}
 			
+			//TODO Freie Elektronenpaare
+			
 			
 			
 		}
 		
+		ArrayList<Tuple<Integer, Integer>> skipped = new ArrayList<Tuple<Integer, Integer>>();
+		
 		for(Tuple<Integer, Integer> bind : m.getElectronBinds()){ // Für jedes Elektronenpaar
+			
+			int bind_type = 0;
+			
+			for(Tuple<Integer, Integer> brotherbind : m.getElectronBinds()) {
+				if((bind.x == brotherbind.x && bind.y == brotherbind.y) ||
+						(bind.x == brotherbind.y && bind.y == brotherbind.x)) {
+					bind_type += 1;
+				}
+			}
+			
 			g2.setColor(Color.BLACK);
-			Line2D.Float line = new Line2D.Float(m.getAtoms().get(bind.x).getX(),
-												m.getAtoms().get(bind.x).getY() ,
-												m.getAtoms().get(bind.y).getX() ,
-												m.getAtoms().get(bind.y).getY() );
+			double dist = Point.distance(m.getAtoms().get(bind.x).getX() ,
+										 m.getAtoms().get(bind.x).getY() ,
+										 m.getAtoms().get(bind.y).getX() ,
+										 m.getAtoms().get(bind.y).getY() );
 			
-			double dist = Panel.getEuclidanDistance(line);
-			
-			Panel.shortenLine(line, (dist - 50) / dist);
-			
-			
-			g2.draw(line);
+			if(bind_type == 1){ //Einfachbindung
+				
+				
+				Line2D.Float line = new Line2D.Float(m.getAtoms().get(bind.x).getX() ,
+													 m.getAtoms().get(bind.x).getY() ,
+													 m.getAtoms().get(bind.y).getX() ,
+													 m.getAtoms().get(bind.y).getY() );
+				
+				Panel.shortenLine(line, (dist - 50) / dist);
+				g2.draw(line);
+				
+			} else if(bind_type >= 2){ //Doppelbindung
+				
+				int offset = 10; // Entfernung der Elektronenpaarbindung
+				
+				
+				Line2D.Float line1 = new Line2D.Float(m.getAtoms().get(bind.x).getX() + offset,
+													  m.getAtoms().get(bind.x).getY() + offset,
+													  m.getAtoms().get(bind.y).getX() + offset,
+												   	  m.getAtoms().get(bind.y).getY() + offset);
+				
+				Line2D.Float line2 = new Line2D.Float(m.getAtoms().get(bind.x).getX() - offset,
+													  m.getAtoms().get(bind.x).getY() - offset,
+													  m.getAtoms().get(bind.y).getX() - offset,
+												   	  m.getAtoms().get(bind.y).getY() - offset);
+				Panel.shortenLine(line1, (dist - 50) / dist);	
+				Panel.shortenLine(line2, (dist - 50) / dist);	
+				
+				g2.draw(line1);
+				g2.draw(line2);
+			}
 		}
 		
 		

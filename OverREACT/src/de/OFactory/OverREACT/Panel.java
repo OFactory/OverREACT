@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Elements;
@@ -230,6 +232,29 @@ public class Panel extends JPanel implements Runnable{
 	    g.drawString(text, newx, newy);
 	}
 	
+	/**
+	 * Gibt die den Klassenname eines installierten LaF mit
+	 * einem Namen an, oder, wenn dieser nicht gefunden wurde, null
+	 * 
+	 * @param nameSnippet ein Fetzen der den Namen des LaFs beinhaltet
+	 * @return den Klassenname , falls installiert , oder null
+	 */
+	public static String getLookAndFeelClassName(String nameSnippet) {
+	    LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
+	    for (LookAndFeelInfo info : plafs) {
+	        if (info.getName().contains(nameSnippet)) {
+	            return info.getClassName();
+	        }
+	    }
+	    return null;
+	}
+	
+	/**
+	 * Kürzt eine Linie um einen Faktor
+	 * 
+	 * @param Line2D l ; die Linie, die gekürzt werden soll
+	 * @param double shortfactor ; der Faktor um den die Linie gekürzt werden soll
+	 */	
 	public static void shortenLine(Line2D l, double shortfactor){
 		
 		// B + ( A - B ) * t

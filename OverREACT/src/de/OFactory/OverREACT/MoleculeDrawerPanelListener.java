@@ -1,5 +1,7 @@
 package de.OFactory.OverREACT;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -8,10 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JMenuItem;
+
 import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Elements;
+import de.OFactory.OverREACT.Objects.Molecule;
 
-public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseListener, ComponentListener, KeyListener{
+public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseListener, ComponentListener, ActionListener, KeyListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -60,9 +65,8 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		Panel.setScreenWidth(MoleculeDrawerPanel.getFrame().getWidth());
-		Panel.setScreenHeight(MoleculeDrawerPanel.getFrame().getHeight());
-		Panel.resizeFonts(MoleculeDrawerPanel.getScreenWidth(), MoleculeDrawerPanel.getScreenHeight());
+		MoleculeDrawerPanel.setScreenWidth(MoleculeDrawerFrame.getPanel().getWidth());
+		MoleculeDrawerPanel.setScreenHeight(MoleculeDrawerFrame.getPanel().getWidth());
 		
 		System.out.println("[Dimensions] " + MoleculeDrawerPanel.getFrame().getWidth() + " | " + MoleculeDrawerPanel.getFrame().getHeight());
 		
@@ -138,6 +142,17 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		System.out.println(e.getActionCommand());
+		
+		if(e.getActionCommand() == "Save"){
+			System.out.println("LOL");
+		}
 		
 	}
 
