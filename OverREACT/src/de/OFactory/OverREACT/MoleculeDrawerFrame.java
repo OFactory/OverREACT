@@ -1,7 +1,7 @@
 package de.OFactory.OverREACT;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -33,7 +33,9 @@ public class MoleculeDrawerFrame extends JFrame {
 	public MoleculeDrawerFrame(String name, int w, int h) {
 		super(name);
 		
-		drawarea = new MoleculeDrawerPanel(DRAW_WIDTH, DRAW_HEIGHT);
+		drawarea = new MoleculeDrawerPanel(this, DRAW_WIDTH, DRAW_HEIGHT);
+		
+		this.setLayout(new BorderLayout());
 		
 		this.setLocation(100, 100);
 		this.setPreferredSize(new Dimension(w, h));
@@ -41,7 +43,7 @@ public class MoleculeDrawerFrame extends JFrame {
 		this.addMouseMotionListener(pl);
 		this.addMouseListener(pl);
 		this.addKeyListener(pl);
-		this.add(drawarea);
+		this.add(drawarea, BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
 
@@ -71,7 +73,7 @@ public class MoleculeDrawerFrame extends JFrame {
 		menu.getAccessibleContext().setAccessibleDescription("Dateien verwalten und speichern");
 		menubar.add(menu);
 
-		createMenuItem(menu, "Öffen", "open", KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		createMenuItem(menu, "Öffnen", "open", KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		createMenuItem(menu, "Speichern", "Save", KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		createMenuItem(menu, "Speichern als...", "Save as");
 		createMenuItem(menu, "Exportieren", "Export");
@@ -89,7 +91,7 @@ public class MoleculeDrawerFrame extends JFrame {
 
 
 	public static void main(String[] args){
-		new MoleculeDrawerFrame("Moleküle Zeichnen |     OFactory", SCREEN_HEIGHT, SCREEN_WIDTH);
+		new MoleculeDrawerFrame("Moleküle Zeichnen |     OFactory", SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		// TEST AREA INCOMING | WARNING | DO NOT TOUCH
 

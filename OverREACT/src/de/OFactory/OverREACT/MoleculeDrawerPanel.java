@@ -4,21 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Molecule;
@@ -37,6 +27,8 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable {
 	private static int SCREEN_WIDTH = 1200;
 	private static int SCREEN_HEIGHT = 700;
 
+	public MoleculeDrawerFrame parent;
+	
 	private static JFrame frame;
 
 	// Schriftarten
@@ -55,7 +47,8 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable {
 	private long delta, last, fps;
 
 	public static Button start;
-	public MoleculeDrawerPanel(int w, int h) {
+	public MoleculeDrawerPanel(MoleculeDrawerFrame root, int w, int h) {
+		this.parent = root;
 		this.setPreferredSize(new Dimension(w, h));
 		this.setBackground(new Color(230, 230, 230));
 
@@ -112,8 +105,12 @@ public class MoleculeDrawerPanel extends JPanel implements Runnable {
 	@Override
 	public void run() {
 
-		while (getFrame().isVisible()) {
-
+		System.out.print("TEST");
+		
+		while (parent.isVisible()) {
+			
+			
+			
 			doLogic();
 
 			computeDelta();

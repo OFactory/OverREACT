@@ -65,10 +65,10 @@ public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseLi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		MoleculeDrawerPanel.setScreenWidth(MoleculeDrawerFrame.getPanel().getWidth());
+		/**MoleculeDrawerPanel.setScreenWidth(MoleculeDrawerFrame.getPanel().getWidth());
 		MoleculeDrawerPanel.setScreenHeight(MoleculeDrawerFrame.getPanel().getWidth());
 		
-		System.out.println("[Dimensions] " + MoleculeDrawerPanel.getFrame().getWidth() + " | " + MoleculeDrawerPanel.getFrame().getHeight());
+		System.out.println("[Dimensions] " + MoleculeDrawerPanel.getDi + " | " + MoleculeDrawerPanel.getFrame().getHeight());*/
 		
 	}
 
