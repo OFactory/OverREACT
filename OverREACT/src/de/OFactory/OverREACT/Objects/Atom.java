@@ -87,11 +87,11 @@ public class Atom {
 			
 			if(MoleculeDrawerPanel.leftmaus){
 			
-				dragged = true;
+				setDragged(true);
 				g.setColor(Color.gray);
 				g2.drawLine(this.getX(), this.getY(), MoleculeDrawerPanel.mausx, MoleculeDrawerPanel.mausy);
 			} else {
-				dragged = false;
+				setDragged(false);
 			}
 		}
 	}
@@ -156,6 +156,14 @@ public class Atom {
 
 	public void setMolecule(Molecule m) {
 		this.m = m;
+	}
+
+	public boolean isDragged() {
+		return dragged;
+	}
+
+	public void setDragged(boolean dragged) {
+		this.dragged = dragged;
 	}
 	
 	

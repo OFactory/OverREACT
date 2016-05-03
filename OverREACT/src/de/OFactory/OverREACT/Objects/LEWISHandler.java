@@ -70,6 +70,7 @@ public class LEWISHandler {
 			
 		}
 		
+		@SuppressWarnings("unused")
 		ArrayList<Tuple<Integer, Integer>> skipped = new ArrayList<Tuple<Integer, Integer>>();
 		
 		for(Tuple<Integer, Integer> bind : m.getElectronBinds()){ // Für jedes Elektronenpaar

@@ -10,11 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JMenuItem;
-
 import de.OFactory.OverREACT.Objects.Atom;
 import de.OFactory.OverREACT.Objects.Elements;
-import de.OFactory.OverREACT.Objects.Molecule;
 
 public class MoleculeDrawerPanelListener implements MouseMotionListener, MouseListener, ComponentListener, ActionListener, KeyListener{
 
